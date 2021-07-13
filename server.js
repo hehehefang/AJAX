@@ -24,19 +24,18 @@ var server = http.createServer(function (request, response) {
     if (path === '/index.html') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/html;charset=utf-8')
-        response.write(`
-        <!DOCTYPE html>
-        <html>
-        <head><title>ajax</title></head>
-        <body><h1>AJAX demo</h1></body>
-        <script src="/main.js"></script>
-        </html>
-        `)
+        const string = fs.readFileSync('public/index.html')
+        response.write(string)
         response.end()
     } else if (path === '/main.js') {
         response.statusCode = 200
         response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
-        response.write(`console.log('I am main.js')`)
+        response.write(fs.readFileSync('public/main.js'))
+        response.end()
+    } else if (path === '/style.css') {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/css;charset=utf-8')
+        response.write(fs.readFileSync('public/style.css'))
         response.end()
     } else {
         response.statusCode = 404
