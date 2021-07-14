@@ -97,3 +97,68 @@ getCSS.onclick = () => {
     request.send();
 }
 
+
+//加载xml
+
+getXML.onclick = () => {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/4.xml');
+
+    request.onreadystatechange = () => {
+        if (request.readyState === 4) {
+            if (request.status >= 200 && request.status < 300) {
+                const dom = request.responseXML;
+                //tagtname  返回一个数组   取第一个
+                const text = dom.getElementsByTagName('warning')[0].textContent
+                console.log(text.trim());
+            }
+        }
+    };
+    request.send();
+}
+
+
+//加载json   实际是代替xml
+
+getJSON.onclick = () => {
+    const request = new XMLHttpRequest();
+    request.open('GET', '/5.json');
+    request.onreadystatechange = () => {
+        if (request.readyState === 4) {
+            if (request.status >= 200 && request.status < 300) {
+                //json.parse 可以把符合json语法的字符串变成对象(不一定是对象)  
+                // json.stringify可以把一个对象变成符合json语法的字符串
+                const object = JSON.parse(request.response)
+                console.log(object)
+                myName.textContent = object.age;
+            } else {
+
+            }
+        }
+    };
+    request.send();
+}
+
+
+//加载分页
+let n = 1
+
+getNEXT.onclick = () => {
+    const request = new XMLHttpRequest();
+    request.open('GET', `/page${n + 1}`);
+    request.onreadystatechange = () => {
+        if (request.readyState === 4) {
+            if (request.status >= 200 && request.status < 300) {
+                const array = JSON.parse(request.response);
+                array.forEach(item => {
+                    const li = document.createElement('li');
+                    li.textContent = item.id;
+                    xxx.appendChild(li);
+                });
+                n += 1;
+            }
+        }
+    };
+    request.send();
+
+}
