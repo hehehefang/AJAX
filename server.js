@@ -37,6 +37,16 @@ var server = http.createServer(function (request, response) {
         response.setHeader('Content-Type', 'text/css;charset=utf-8')
         response.write(fs.readFileSync('public/style.css'))
         response.end()
+    } else if (path === '/2.js') {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/javascript;charset=utf-8')
+        response.write(fs.readFileSync('public/2.js'))
+        response.end()
+    } else if (path === '/1.html') {
+        response.statusCode = 200
+        response.setHeader('Content-Type', 'text/html;charset=utf-8')
+        response.write(fs.readFileSync('public/1.html'))
+        response.end()
     } else {
         response.statusCode = 404
         response.setHeader('Content-Type', 'text/html;charset=utf-8')
